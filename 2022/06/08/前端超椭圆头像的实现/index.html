@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>
+    vvhao&#39;s blog
+  </title>
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+  
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body id="bodyx">
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            前端超椭圆头像的实现
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>UX工程师为了美观在设计方案上加入了“超椭圆”头像设计，这可难不倒我们前端工程师，灵光一闪想出了解决方案～</p>
+<img style="width:400px !important;" src="/images/hyperelliptic_1.png" />
+
+<h2 id="开发思路"><a href="#开发思路" class="headerlink" title="开发思路"></a>开发思路</h2><p>1、由于前期工作原因，在开发Chrome插件的时候有处理过超椭圆设计，在iframe上有一个样式可以实现该UI效果 - “mask-image”, 用于设置元素上遮罩层的图像。</p>
+<img style="width:200px !important;" src="/images/hyperelliptic_2.png" />
+
+<p>2、具体的实现是用一个有超椭圆型状的svg作为遮罩去遮住多余的部分。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;/images/avatar.png&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">img</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">60px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">60px</span>;</span><br><span class="line">  user-select: none;</span><br><span class="line">  -webkit-<span class="attribute">mask</span>-size: cover;</span><br><span class="line">  -webkit-<span class="attribute">mask</span>-repeat: no-repeat;</span><br><span class="line">  -webkit-<span class="attribute">mask</span>-image: <span class="built_in">url</span>(<span class="string">&#x27;data:image/svg+xml;utf8,&lt;svg viewBox=&quot;3.5 3.5 165 165&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;path d=&quot;M86,4 C116.191566,4 136.63658,9.48730185 149.574639,22.4253609 C162.512698,35.3634199 168,52.808434 168,86 C168,116.191566 162.512698,136.63658 149.574639,149.574639 C136.63658,162.512698 116.191566,168 86,168 C55.8084337,168 35.3634199,162.512698 22.4253609,149.574639 C9.48730185,136.63658 4,116.191566 4,86 C4,55.8084337 9.48730185,35.3634199 22.4253609,22.4253609 C35.3634199,9.48730185 55.8084337,4 86,4 Z&quot;/&gt;&lt;/svg&gt;&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看看这个svg的预览状态，代码中的这个svg形状是刚刚好的。有需要的小伙伴可以直接copy上面的css代码。</p>
+<img style="width:300px !important;" src="/images/hyperelliptic_3.png" />
+    </div>
+
+    
+</div>
+    <div class="footer" id="footer">
+    <p><a target="_blank" rel="noopener" href="http://www.miitbeian.gov.cn/">鄂ICP备2021007986号-1</a>
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+        <script type="text/javascript">document.write(unescape("%3Cspan style='vertical-align: middle;' id='cnzz_stat_icon_1279899440'%3E%3C/span%3E%3Cscript src='https://v1.cnzz.com/z_stat.php%3Fid%3D1279899440%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+    </p>
+</div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="">
+<input type="hidden" id="valine_appKey" value="">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+
+</body>
+
+</html>
