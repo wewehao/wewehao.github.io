@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>
+    weiwenhao&#39;s blog
+  </title>
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+  
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body id="bodyx">
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            Web唤起本地APP应用
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h2 id="关于-URL-Protocol"><a href="#关于-URL-Protocol" class="headerlink" title="关于 URL Protocol"></a>关于 URL Protocol</h2><p>Web本身支持通过自定义URL Protocol来调用本地的应用程序，例如只需要在浏览器中输tencent://（tencent://为QQ的自定义URL Protocol）就能够使得浏览器去寻找注册表并打开对应的本地应用程序。</p>
+<p>基于此，只需要在开发的APP中定义好协议地址。然后在web中使用a标签链接就可以打开APP。</p>
+<p>但是可能用户可能还没有安装APP，这里怎么做检测呢？</p>
+<h2 id="检测是否唤醒成功"><a href="#检测是否唤醒成功" class="headerlink" title="检测是否唤醒成功"></a>检测是否唤醒成功</h2><p>在网上搜索了一会儿解决方案，大多的回答也都是 <a target="_blank" rel="noopener" href="https://github.com/vireshshah/custom-protocol-check">protocolcheck.js</a></p>
+<p>一种浏览器与另一种浏览器的实现方式不同，有时取决于您使用的是哪种操作系统。他们中的大多数都是黑客，这意味着解决方案并不是最漂亮的。</p>
+<blockquote>
+<p>重要功能：如果当前选项卡在尝试检测焦点时未处于活动状态，那么它会在焦点回到当前选项卡上后立即尝试打开协议。当有一个长时间运行的进程并且在该进程结束时我们需要检测是否可以使用自定义协议打开该文件时，它更有用。用户可能在不同的选项卡或应用程序上工作，因此在这种情况下，库会在当前选项卡获得焦点后立即尝试检测自定义协议。</p>
+</blockquote>
+<ul>
+<li>Chrome和iOS：使用window onBlur检测浏览器焦点是否被盗。当焦点被盗时，它假定自定义协议启动外部应用程序，因此它存在。</li>
+<li>Firefox (Version &gt;= 64): 使用隐藏的iframe onBlur 检测焦点是否被盗。当焦点被盗时，它假定自定义协议启动外部应用程序，因此它存在。</li>
+<li>Firefox（版本 &lt; 64）：尝试在隐藏的 iframe 中打开处理程序并在自定义协议不可用时捕获异常。</li>
+<li>Safari：使用隐藏的iframe onBlur检测焦点是否被盗。当焦点被盗时，它假定自定义协议启动外部应用程序，因此它存在。</li>
+<li>Win 8/Win 10 中的 IE 和 Edge：最干净的解决方案。Windows 8 和 Windows 10 中的 IE 和 Edge 确实提供了一个 API 来检查自定义协议处理程序是否存在。不支持其他较旧的 IE 版本。</li>
+</ul>
+
+    </div>
+
+    
+</div>
+    <div class="footer" id="footer">
+    <p><a target="_blank" rel="noopener" href="http://www.miitbeian.gov.cn/">鄂ICP备2021007986号-1</a>
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+        <script type="text/javascript">document.write(unescape("%3Cspan style='vertical-align: middle;' id='cnzz_stat_icon_1279899440'%3E%3C/span%3E%3Cscript src='https://v1.cnzz.com/z_stat.php%3Fid%3D1279899440%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+    </p>
+</div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="">
+<input type="hidden" id="valine_appKey" value="">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+
+</body>
+
+</html>

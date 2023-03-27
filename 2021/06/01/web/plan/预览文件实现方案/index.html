@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>
+    weiwenhao&#39;s blog
+  </title>
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+  
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body id="bodyx">
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            预览文件实现方案
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在开发自己的涉及多种类型文件项目时，需要做一些体验上的优化。用户上传的文件怎么实现不下载但能够快速预览？</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><ol>
+<li><p>一种方案是统计所有可以预览的文件类型，然后针对文件实现转换，比如浏览器本身可以预览图片、PDF和HTML文件。这里可以通过后端服务将文件转换成这几个类型，可以达到快速预览的目的。</p>
+</li>
+<li><p>第二种是通过第三方服务kkFileView，这是一个开源项目，使用流行的spring boot搭建，易上手和部署，基本支持主流办公文档的在线预览，如doc，docx，Excel，pdf，txt，zip，rar，图片等等。</p>
+</li>
+</ol>
+<p>我在调研后决定使用第二种，通过kkFileView实现预览，这个项目本身已经非常成熟了。预览效果也很棒。部署服务后只需要传入一个url即可预览文件。</p>
+<p>本地运行也比较简单，将git项目拉下来，在本地用idea打开，安装项目依赖后启动运行即可。也可以打包成一个发行版jar包，在服务器上直接运行。</p>
+<h2 id="资源地址"><a href="#资源地址" class="headerlink" title="资源地址"></a>资源地址</h2><p>demo地址：<a target="_blank" rel="noopener" href="https://file.keking.cn/index">https://file.keking.cn/index</a></p>
+<p>gitee：<a target="_blank" rel="noopener" href="https://gitee.com/kekingcn/file-online-preview">https://gitee.com/kekingcn/file-online-preview</a></p>
+
+    </div>
+
+    
+</div>
+    <div class="footer" id="footer">
+    <p><a target="_blank" rel="noopener" href="http://www.miitbeian.gov.cn/">鄂ICP备2021007986号-1</a>
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+        <script type="text/javascript">document.write(unescape("%3Cspan style='vertical-align: middle;' id='cnzz_stat_icon_1279899440'%3E%3C/span%3E%3Cscript src='https://v1.cnzz.com/z_stat.php%3Fid%3D1279899440%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+    </p>
+</div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="">
+<input type="hidden" id="valine_appKey" value="">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+
+</body>
+
+</html>

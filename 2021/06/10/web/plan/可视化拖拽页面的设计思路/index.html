@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>
+    weiwenhao&#39;s blog
+  </title>
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+  
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body id="bodyx">
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            可视化拖拽页面的设计思路
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>为了降低代码复杂度和提高开发效率，减少重复工作，有时候有必要开发一个可拖拽生成页面/表单的系统。</p>
+<h2 id="开发思路"><a href="#开发思路" class="headerlink" title="开发思路"></a>开发思路</h2><p>1、第一步肯定是确定需求，目前我看到的大部分是从左侧拖拽组件到右侧展示区域。拖拽后右侧显示一个预览的组件。</p>
+<p><img src="/images/drag_1.png"></p>
+<p>2、怎么实现这个拖拽操作呢？这里有个很强大的拖拽库<a target="_blank" rel="noopener" href="https://sortablejs.github.io/Vue.Draggable/#/simple">Vue.Draggable</a>。这里有示例。</p>
+<p><img src="/images/drag_2.png"></p>
+<p>从左侧列表拖拽到右侧列表，有个对应的JSON配置会同步更新。</p>
+<p>3、依赖于这个库，我们可以实现拖拽操作了，左侧是一个根据JSON渲染出来的组件列表，右侧则是预览的JSON渲染的预览页面。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>这是一个基本的思路，拖拽操作可以减少很多页面的重复开发工作，比如活动页面，运营可能经常会更改，这里用拖拽生成基本不需要要前端常常更新代码发包了。还有表单，也可以通过拖拽动态生成，然后给一个外部链接就可以访问了。</p>
+
+    </div>
+
+    
+</div>
+    <div class="footer" id="footer">
+    <p><a target="_blank" rel="noopener" href="http://www.miitbeian.gov.cn/">鄂ICP备2021007986号-1</a>
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+        <script type="text/javascript">document.write(unescape("%3Cspan style='vertical-align: middle;' id='cnzz_stat_icon_1279899440'%3E%3C/span%3E%3Cscript src='https://v1.cnzz.com/z_stat.php%3Fid%3D1279899440%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+    </p>
+</div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="">
+<input type="hidden" id="valine_appKey" value="">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+
+</body>
+
+</html>

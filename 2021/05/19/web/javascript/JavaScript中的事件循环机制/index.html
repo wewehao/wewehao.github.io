@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>
+    weiwenhao&#39;s blog
+  </title>
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+  
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body id="bodyx">
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            JavaScript中的事件循环机制
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h2 id="Event-Loop"><a href="#Event-Loop" class="headerlink" title="Event Loop"></a>Event Loop</h2><blockquote>
+<p>Event Loop的事件分两种，宏任务(macro-task)和微任务(micro-task)</p>
+</blockquote>
+<ul>
+<li><p>宏任务：整体代码script，setTimeout，setInterval，setImmediate，I/O ，UI rendering</p>
+</li>
+<li><p>微任务：Promise.then，process.nextTick，MutationObserver</p>
+</li>
+<li><p>先执行宏任务，然后执行微任务。</p>
+</li>
+</ul>
+<blockquote>
+<p>任务有同步任务和异步任务，同步任务进入主线程，异步任务进入事件表并注册函数，异步事件完成后，会将回调函数放入事件队列中(宏任务和微任务是不同的队列)，同步任务执行完成后，会从事件队列中读取事件放入主线程执行，回调函数中可能还会包含不同的任务，因此会循环执行上述操作。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;1&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;2&#x27;</span>);</span><br><span class="line">  process.nextTick(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;3&#x27;</span>);</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;4&#x27;</span>);</span><br><span class="line">    resolve();</span><br><span class="line">  &#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;5&#x27;</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line">process.nextTick(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;6&#x27;</span>);</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;7&#x27;</span>);</span><br><span class="line">  resolve();</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;8&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;9&#x27;</span>);</span><br><span class="line">  process.nextTick(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;10&#x27;</span>);</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;11&#x27;</span>);</span><br><span class="line">    resolve();</span><br><span class="line">  &#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;12&#x27;</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>JS 事件执行机制 什么是单线程-&gt;同一个时间只能做一件事</p>
+</li>
+<li><p>多线程要考虑线程之间的资源抢占，死锁，冲突之类一系列问题</p>
+</li>
+<li><p>单线程就意味着，所有任务需要排队，前一个任务结束，才会执行后一个任务。如果前一个任务耗时很长，后一个任务就不得不一直等着。</p>
+</li>
+<li><p>所有任务可以分成两种，同步任务和异步任务</p>
+</li>
+<li><p>同步任务指的是，在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务；</p>
+</li>
+<li><p>异步任务指的是，不进入主线程、而进入”任务队列”（task queue）的任务，只有”任务队列”通知主线程，某个异步任务可以执行了，该任务才会进入主线程执行。</p>
+</li>
+<li><p>异步执行的运行机制<br>（1）所有同步任务都在主线程上执行，形成一个执行栈（execution context stack）。<br>（2）主线程之外，还存在一个”任务队列”（task queue）。只要异步任务有了运行结果，就在”任务队列”之中放置一个事件。<br>（3）一旦”执行栈”中的所有同步任务执行完毕，系统就会读取”任务队列”，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。<br>（4）主线程不断重复上面的第三步。</p>
+</li>
+<li><p>上面代码的执行顺序：</p>
+<ol>
+<li>整体script作为第一个宏任务进入主线程。遇到console，输出1。</li>
+<li>碰到setTimeout作为宏任务，放到宏任务队列中。记为 s1。</li>
+<li>碰到process作为微任务，进入微任务队列中。记为 p1。</li>
+<li>碰到new Promise立即执行，输出7。then被分发到微任务队列中。记为 t1。</li>
+<li>碰到setTimeout作为宏任务，放到宏任务队列中。记为 s2。</li>
+</ol>
+</li>
+<li><p>至此，第一轮事件循环宏任务结束时。任务队列的情况。</p>
+<ol>
+<li>宏任务：s1， s2。</li>
+<li>微任务：p1, t1。</li>
+</ol>
+</li>
+<li><p>发现了两个微任务，依次执行p1, t1。输出 6，8。</p>
+</li>
+<li><p>此时第一轮事件循环结束。剩下两个宏任务 s1，s2。</p>
+</li>
+<li><p>开始执行第二轮任务。宏任务。</p>
+<ol>
+<li>执行s1。</li>
+<li>碰到console立即执行，输出 2。</li>
+<li>碰到process作为微任务，放到微任务队列中。记为 p2。</li>
+<li>碰到new Promise立即执行，输出 4。then被分发到微任务队列中。记为 t2。</li>
+</ol>
+</li>
+<li><p>第二轮宏任务执行结束。发现微任务 p2, t2。依次输出 3，5。</p>
+</li>
+<li><p>第二轮事件循环结束。剩下宏任务 s2。</p>
+</li>
+<li><p>开始执行第三轮任务。宏任务。</p>
+<ol>
+<li>执行s2。</li>
+<li>碰到console立即执行，输出 9。</li>
+<li>碰到process作为微任务，放到微任务队列中。记为 p3。</li>
+<li>碰到new Promise立即执行，输出 11。then被分发到微任务队列中。记为 t3。</li>
+</ol>
+</li>
+<li><p>第三轮宏任务执行结束。发现微任务 p3，t3。依次输出 10, 12。</p>
+</li>
+<li><p>主线程任务队列已经执行完毕。事件循环结束。</p>
+</li>
+<li><p>输出依次为：1，7，6，8，2，4，3，5，9，11，10，12。</p>
+</li>
+</ul>
+
+    </div>
+
+    
+</div>
+    <div class="footer" id="footer">
+    <p><a target="_blank" rel="noopener" href="http://www.miitbeian.gov.cn/">鄂ICP备2021007986号-1</a>
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+        <script type="text/javascript">document.write(unescape("%3Cspan style='vertical-align: middle;' id='cnzz_stat_icon_1279899440'%3E%3C/span%3E%3Cscript src='https://v1.cnzz.com/z_stat.php%3Fid%3D1279899440%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+    </p>
+</div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="">
+<input type="hidden" id="valine_appKey" value="">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+
+</body>
+
+</html>
