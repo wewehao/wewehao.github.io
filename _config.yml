@@ -1,0 +1,14 @@
+title: weiwenhao's blog
+per_page: 1000
+theme: geek
+timezone: Asia/Shanghai
+language: zh-CN
+author: weiwenhao
+
+deploy:
+  type: git
+  repo: git@github.com:wewehao/wewehao.github.io.git
+  branch: main
+
+server:
+  port: 3999

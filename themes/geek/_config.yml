@@ -1,0 +1,14 @@
+logo_title: weiwenhao's blog
+
+style: black
+
+favicon: /favicon.ico
+
+menu:
+  Github: https://github.com/wewehao
+
+valine:
+  enable: false
+
+highlight:
+  enable: false
