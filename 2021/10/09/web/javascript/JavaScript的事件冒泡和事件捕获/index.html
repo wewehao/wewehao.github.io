@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>
+    weiwenhao&#39;s blog
+  </title>
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+  
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body id="bodyx">
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            JavaScript的事件冒泡和事件捕获
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h2 id="事件类型"><a href="#事件类型" class="headerlink" title="事件类型"></a>事件类型</h2><p>鼠标事件</p>
+<p>键盘事件</p>
+<p>框架事件 onerror onresize onscroll等</p>
+<p>表单事件事件 onblur onfocus等</p>
+<p>剪贴板事件 oncopy oncut onpaste</p>
+<p>打印事件 onafterprint onbeforeprint</p>
+<p>拖动事件 ondrag ondragenter等</p>
+<p>media事件 onplay onpause</p>
+<p>动画事件 animationend</p>
+<p>UI事件 load 、unload、error、select、resize、scroll</p>
+<h2 id="事件的三种模型"><a href="#事件的三种模型" class="headerlink" title="事件的三种模型"></a>事件的三种模型</h2><p>1、原始事件模型</p>
+<p>原始事件模型中，事件发生后没有传播的概念，没有事件流。事件发生，立即处理。</p>
+<p>监听函数只是元素的一个属性值，通过指定元素的属性值来绑定监听器。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HTML: &lt;input id=”btn” onclick=”func()” /&gt;</span><br><span class="line">js : document.getElementsById(‘btn’).onclick = func</span><br></pre></td></tr></table></figure>
+
+<p>优点是兼容性好。</p>
+<p>缺点：</p>
+<ul>
+<li><p>相同事件的监听函数只能绑定一个，后绑定的会覆盖掉前面的。</p>
+</li>
+<li><p>无法通过事件的冒泡、委托等机制等。</p>
+</li>
+</ul>
+<p>2、IE事件模型</p>
+<p>IE是将event对象在处理函数中设为window的属性，一旦函数执行结束，便被置为null<br>了。</p>
+<p>IE的事件模型只有两步，先执行元素的监听函数，然后事件沿着父节点一直冒泡到document。</p>
+<ul>
+<li><p>IE中不支持事件捕获，只有事件冒泡。</p>
+</li>
+<li><p>使用attachEvent()方法时候，事件处理程序会在全局作用域中运行，因此this等于window。</p>
+</li>
+<li><p>添加多个事件的时候，触发的顺序是：后添加的先执行，这点和DOM方法不同。</p>
+</li>
+</ul>
+<p>3、DOM2事件模型</p>
+<p>W3C制定的事件模型中，一次事件的发生包含三个过程：</p>
+<ul>
+<li>事件捕获阶段。事件被从document一直向下传播到目标元素,在这过程中依次检查经过的节点是否注册了该事件的监听函数，若有则执行。</li>
+<li>事件处理阶段。事件到达目标元素,执行目标元素的事件处理函数.</li>
+<li>事件冒泡阶段。事件从目标元素上升一直到达document，同样依次检查经过的节点是否注册<br>了该事件的监听函数，有则执行。</li>
+</ul>
+<p>注意：所有的事件类型都会经历事件捕获阶段，但是只有部分事件会经历事件冒泡阶段,例如<br>submit事件就不会被冒泡。为了最大程度兼容各种浏览器，一般都是将事件处理函程序添加到事件流的冒泡阶段。</p>
+<p>绑定解除监听函数的方法：</p>
+<p>addEventListener(“eventType”,”handler”,”true|false”);其中eventType指事件类型，注意<br>不要加‘on’前缀，与IE下不同。</p>
+<p>第二个参数是处理函数，第三个参数是可选参数。</p>
+<p>监听器的解除也类似：removeEventListener(“eventType”,”handler”, {});</p>
+<p>兼容IE和现代浏览器的事件注册监听写法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let a = document.getElementById(&#x27;XXX&#x27;);</span><br><span class="line"></span><br><span class="line">if(a.attachEvent) &#123;</span><br><span class="line">    a.attachEvent(&#x27;onclick&#x27;, func);</span><br><span class="line">&#125; else &#123; // IE9以上和主流浏览器</span><br><span class="line">    a.addEventListener(&#x27;click&#x27;, func, &#123;&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="事件的捕获-冒泡机制"><a href="#事件的捕获-冒泡机制" class="headerlink" title="事件的捕获-冒泡机制"></a>事件的捕获-冒泡机制</h2><p>DOM2标准中，一次事件的完整过程包括三步：捕获→执行目标元素的监听函数→冒泡，在捕获和冒泡阶段，会依次检查途径的每个节点，如果该节点注册了相应的监听函数，则执行监听函数。</p>
+<p>如果不想让事件向上冒泡，可以在监听函数中调用event.stopPropagation()来完成。</p>
+<p>preventDefault可以用来取消事件的默认行为，比如点击a标签默认跳转链接，点击button默认提交。</p>
+<p>stopPropagation用来取消事件进一步捕获或者冒泡。</p>
+<p>options 可选:</p>
+<ul>
+<li>capture:  Boolean，表示 listener 会在该类型的事件捕获阶段传播到该 EventTarget 时触发。</li>
+<li>once:  Boolean，表示 listener 在添加之后最多只调用一次。如果是 true， listener 会在其被调用之后自动移除。</li>
+<li>passive: Boolean，设置为true时，表示 listener 永远不会调用 preventDefault()。如果 listener 仍然调用了这个函数，客户端将会忽略它并抛出一个控制台警告。查看 使用 passive 改善的滚屏性能 了解更多.</li>
+<li>signal：AbortSignal，该 AbortSignal 的 abort() 方法被调用时，监听器会被移除。</li>
+<li>mozSystemGroup: 只能在 XBL 或者是 Firefox’ chrome 使用，这是个 Boolean，表示 listener 被添加到 system group。</li>
+</ul>
+
+    </div>
+
+    
+</div>
+    <div class="footer" id="footer">
+    <p><a target="_blank" rel="noopener" href="http://www.miitbeian.gov.cn/">鄂ICP备2021007986号-1</a>
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+        <script type="text/javascript">document.write(unescape("%3Cspan style='vertical-align: middle;' id='cnzz_stat_icon_1279899440'%3E%3C/span%3E%3Cscript src='https://v1.cnzz.com/z_stat.php%3Fid%3D1279899440%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+    </p>
+</div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="">
+<input type="hidden" id="valine_appKey" value="">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+
+</body>
+
+</html>
