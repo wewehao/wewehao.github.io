@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>
+    weiwenhao&#39;s blog
+  </title>
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+  
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body id="bodyx">
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            记录一次解决BUG的经过
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <blockquote>
+<p>午休醒了 看到测试提的BUG，突然想记录一下解决BUG的经过。</p>
+</blockquote>
+<h3 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h3><p>需求：一个图片列表有已读未读的状态，在点击图片进入详情页面前，需要调用<code>/read</code>接口通知服务端已读状态。这里从详情页面返回时会通知页面刷新列表，更新已读状态。</p>
+<p>现象：在本地开发中表现正常。但是在测试的手机上出现了问题。进入详情后返回列表页查看，该图片还是未读状态。但是在杀掉小程序后，再次进入图片列表则展示了已读状态。</p>
+<h3 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h3><p>首先想到的是添加日志</p>
+<p>1、添加日志，查看<code>/read</code>接口是否调用成功了。<br>2、添加日志，查看小程序页面间通知是否成功了。</p>
+<p>在添加日志的过程中发现有个API请求多余了（已读状态的图片点击后仍然调用了<code>/read</code>接口），顺手改掉了。</p>
+<blockquote>
+<p>加上日志以后 在真机测试发现接口都调用了，在第2步出现了问题。<br>如果用户是点击返回按钮，那么会发送通知成功刷新列表。<br>如果用户是手势返回的，那么这个通知就没有触发。</p>
+</blockquote>
+<p>3、于是开始想微信小程序怎么拦截手势返回动作。查了文档发现不支持。于是开始想别的办法。<br>4、突然想到在生命周期<code>onShow</code>里去调用接口呢？每次显示页面的时候调用。确实可行。<br>5、自测了一会儿后，解决了该问题。</p>
+
+    </div>
+
+    
+</div>
+    <div class="footer" id="footer">
+    <p><a target="_blank" rel="noopener" href="http://www.miitbeian.gov.cn/">鄂ICP备2021007986号-1</a>
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+        <script type="text/javascript">document.write(unescape("%3Cspan style='vertical-align: middle;' id='cnzz_stat_icon_1279899440'%3E%3C/span%3E%3Cscript src='https://v1.cnzz.com/z_stat.php%3Fid%3D1279899440%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+    </p>
+</div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="">
+<input type="hidden" id="valine_appKey" value="">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+
+</body>
+
+</html>
